@@ -113,7 +113,7 @@ hold off
 % neuron firing. For a single oscillator, the neuron will not spike
 % continuously without an external stimulus, but coupling them together can
 % provide the necessary input such that sustained spiking patterns persist
-
+rng = (195);
 % -- Construct FHN System
 K=.2;  % coupling strength
 n=50; % number of oscillators
@@ -147,7 +147,7 @@ hold on
 plot(x1,x2, 'k', 'LineWidth', 1.5)
 
 % -- derivatives
-dt = t1(2) - t1(1);
+dt = t(2) - t(1);
 X = x1;
 dXs = (X(3:end,:)-X(1:end-2,:))./(2*dt);
 Xs = X(2:end-1,:);
