@@ -37,19 +37,19 @@ dx_centerdiff = (y(3:end,:) - y(1:end-2,:))./...
 
 % -- SINDy via SR3 with trimming
 % build library 
-nvars = 1; polyorder = 5; usesine = 0;
+nvars = 1; polyorder = 3; usesine = 0;
 A = poolData(y(2:end-1,2),nvars,polyorder,usesine);
 % hyperparameters
 trimmed_fraction = .011; %0.2;
-threshold = 1 - trimmed_fraction; 
 kappa = 80; 
 stepsize = .01; 
 maxiter = 2000;
-
+lambda = .9;
 % apply SR3 algorithm
 [Xi_full,Xi_sparse,trimmed_points] = ...
-    SR3(A, dx_centerdiff(:,2),threshold, kappa, stepsize, trimmed_fraction, maxiter);
+    SR3(A, dx_centerdiff(:,2),lambda, kappa, stepsize, trimmed_fraction, maxiter);
 
+threshold = 1 - trimmed_fraction; 
 figure 
 hold on
 % plot axes
@@ -97,11 +97,11 @@ A = poolData(y(2:end-1,3),nvars,polyorder,usesine);
 kappa = 80; 
 stepsize = .01; 
 trimmed_fraction = 0.2;
-threshold =1-trimmed_fraction;
+lambda = 0.8;
 maxiter = 2000;
 [Xi_full,Xi_sparse,trimmed_points] = ...
-    SR3(A, dx_centerdiff(:,3),threshold, kappa, stepsize, trimmed_fraction, maxiter);
-
+    SR3(A, dx_centerdiff(:,3),lambda, kappa, stepsize, trimmed_fraction, maxiter);
+threshold =1-trimmed_fraction;
 % -- Visualize Results
 plot3(y(trimmed_points<threshold,1),...
     y(trimmed_points<threshold,2),...
@@ -157,9 +157,9 @@ A = poolData(Xs,1,3,0);
 kappa = 80; 
 stepsize = .01; 
 trimmed_fraction = 0.2;
-threshold =1-trimmed_fraction;
+lambda = 0.8;
 maxiter = 200;
 [Xi_full,Xi_sparse,trimmed_points] = ...
-    SR3(A, dXs,threshold, kappa, stepsize, trimmed_fraction, maxiter);
-
+    SR3(A, dXs,lambda, kappa, stepsize, trimmed_fraction, maxiter);
+threshold =1-trimmed_fraction;
 plot(x1(trimmed_points<threshold),x2(trimmed_points<threshold), 'r.')
