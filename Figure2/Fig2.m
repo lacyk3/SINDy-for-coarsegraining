@@ -11,7 +11,6 @@
 % - Library.m (edit to match the BuildA() inline function)
 % - hybrid_rhs.m
 
-
 clear all; close all; clc
 %% Simulate Rayleigh oscillator to create "data"
 
@@ -32,15 +31,15 @@ nvars = 1; polyorder = 5; usesine = 0;
 A = poolData(y(2:end-1,2),nvars,polyorder,usesine);
 % hyperparameters
 trimmed_fraction = .011; %0.2;
-threshold = 1 - trimmed_fraction; 
+lambda = .989; 
 kappa = 80; 
 stepsize = .01; 
 maxiter = 2000;
 
 % apply SR3 algorithm
 [Xi_full,Xi_sparse,trimmed_points] = ...
-    SR3(A, dx_centerdiff(:,2),threshold, kappa, stepsize, trimmed_fraction, maxiter);
-
+    SR3(A, dx_centerdiff(:,2),lambda, kappa, stepsize, trimmed_fraction, maxiter);
+threshold = 1 - trimmed_fraction;
 figure 
 hold on
 % plot axes
@@ -212,7 +211,7 @@ barh(wslowy)
 yticks(1:13)
 yticklabels({'1','x','y','x^2','y^2', 'f1(y)','f2(y)','log|x-1|','log|x+1|',...
            '1/(x-1)','1/(x+1)', 'x/(1-x.^2)',...
-             'y/(1-y^2)'})
+            'y/(1-y^2)'})
 
         
 %% -- X_fast
